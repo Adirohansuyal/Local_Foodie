@@ -1,18 +1,24 @@
-import { useState } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useSearch } from "@/hooks/use-search";
 
 export default function SearchSection() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedArea, setSelectedArea] = useState("all");
+  const { 
+    searchQuery, 
+    setSearchQuery, 
+    selectedArea, 
+    setSelectedArea,
+    setIsSearchActive 
+  } = useSearch();
 
   const handleSearch = () => {
     const area = selectedArea === "all" ? "All Areas" : selectedArea;
     console.log("Searching for:", searchQuery, "in area:", area);
-    // Here you would typically make an API call or filter restaurants
+    // Set search as active to filter restaurant list
+    setIsSearchActive(true);
   };
 
   return (

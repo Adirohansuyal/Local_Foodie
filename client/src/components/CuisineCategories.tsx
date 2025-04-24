@@ -1,12 +1,13 @@
-import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { cuisines } from "@/data/cuisines";
+import { useSearch } from "@/hooks/use-search";
 
 export default function CuisineCategories() {
-  const [selectedCuisine, setSelectedCuisine] = useState<string | null>(null);
+  const { selectedCuisine, setSelectedCuisine, setIsSearchActive } = useSearch();
   
   const handleCuisineClick = (cuisineId: string) => {
-    setSelectedCuisine(cuisineId);
+    setSelectedCuisine(selectedCuisine === cuisineId ? null : cuisineId);
+    setIsSearchActive(true);
     console.log("Selected cuisine:", cuisineId);
   };
   

@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import { ThemeProvider } from "./hooks/use-theme";
+import { SearchProvider } from "./hooks/use-search";
 
 function Router() {
   return (
@@ -20,10 +21,12 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="light" storageKey="localfoodie-theme">
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
+        <SearchProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Router />
+          </TooltipProvider>
+        </SearchProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );

@@ -6,8 +6,8 @@ const API_KEY = process.env.GEMINI_API_KEY || "";
 // Initialize the Gemini API
 const genAI = new GoogleGenerativeAI(API_KEY);
 
-// The model to use
-const MODEL_NAME = "gemini-pro";
+// The model to use - trying a different model version
+const MODEL_NAME = "gemini-1.5-pro";
 
 export async function generateResponse(prompt: string): Promise<string> {
   try {

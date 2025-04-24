@@ -47,18 +47,18 @@ export default function ChatBot() {
 
     try {
       // Send request to the API
-      const response = await apiRequest('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message: userMessage.text }),
-      });
+      const response = await apiRequest(
+        'POST',
+        '/api/chat',
+        { message: userMessage.text }
+      );
+      
+      const data = await response.json();
 
       // Add bot response
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: response.response || "I'm sorry, I couldn't process your request.",
+        text: data.response || "I'm sorry, I couldn't process your request.",
         sender: 'bot',
         timestamp: new Date(),
       };

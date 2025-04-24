@@ -6,6 +6,7 @@ import RestaurantList from "@/components/RestaurantList";
 import AppPromo from "@/components/AppPromo";
 import Testimonials from "@/components/Testimonials";
 import Footer from "@/components/Footer";
+import ChatBot from "@/components/ChatBot";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
         <Testimonials />
       </main>
       <Footer />
+      <ChatBot />
     </div>
   );
 }

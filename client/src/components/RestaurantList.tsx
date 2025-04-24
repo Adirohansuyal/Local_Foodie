@@ -5,6 +5,7 @@ import { Heart, ShoppingCart, ThumbsUp, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useSearch } from "@/hooks/use-search";
+import { useCart } from "@/hooks/use-cart";
 import { cuisines } from "@/data/cuisines";
 import { useToast } from "@/hooks/use-toast";
 
@@ -13,10 +14,10 @@ type SortOption = "recommended" | "rating" | "delivery" | "price";
 export default function RestaurantList() {
   const [sortOption, setSortOption] = useState<SortOption>("recommended");
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
-  const [cart, setCart] = useState<Set<string>>(new Set());
   const [likedFoods, setLikedFoods] = useState<Set<string>>(new Set());
   const { searchQuery, selectedArea, selectedCuisine, isSearchActive, setIsSearchActive } = useSearch();
   const { toast } = useToast();
+  const { addToCart, removeFromCart, isInCart } = useCart();
   
   const toggleFavorite = (id: string) => {
     setFavorites(prev => {
@@ -31,25 +32,21 @@ export default function RestaurantList() {
   };
   
   const toggleCart = (id: string, name: string) => {
-    setCart(prev => {
-      const newCart = new Set(prev);
-      if (newCart.has(id)) {
-        newCart.delete(id);
-        toast({
-          title: "Removed from cart",
-          description: `${name} has been removed from your cart`,
-          variant: "default",
-        });
-      } else {
-        newCart.add(id);
-        toast({
-          title: "Added to cart",
-          description: `${name} has been added to your cart`,
-          variant: "default",
-        });
-      }
-      return newCart;
-    });
+    if (isInCart(id)) {
+      removeFromCart(id);
+      toast({
+        title: "Removed from cart",
+        description: `${name} has been removed from your cart`,
+        variant: "default",
+      });
+    } else {
+      addToCart(id, name);
+      toast({
+        title: "Added to cart",
+        description: `${name} has been added to your cart`,
+        variant: "default",
+      });
+    }
   };
   
   const toggleLikeFood = (restaurantId: string, foodName: string) => {
@@ -249,11 +246,11 @@ export default function RestaurantList() {
                     {/* Add to cart button */}
                     <div className="mt-4">
                       <Button
-                        variant={cart.has(restaurant.id) ? "default" : "outline"}
+                        variant={isInCart(restaurant.id) ? "default" : "outline"}
                         className="w-full flex items-center justify-center gap-2"
                         onClick={() => toggleCart(restaurant.id, restaurant.name)}
                       >
-                        {cart.has(restaurant.id) ? (
+                        {isInCart(restaurant.id) ? (
                           <>
                             <Check size={16} />
                             <span>Added to Cart</span>

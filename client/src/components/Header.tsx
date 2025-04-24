@@ -7,6 +7,7 @@ import { Moon, Sun, Menu, ShoppingCart } from "lucide-react";
 
 export default function Header() {
   const { theme, setTheme } = useTheme();
+  const { cartCount } = useCart();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleTheme = () => {
@@ -34,6 +35,23 @@ export default function Header() {
           <Link href="/explore" className="font-medium hover:text-primary transition-all">Explore</Link>
           <Link href="/contact" className="font-medium hover:text-primary transition-all">Contact</Link>
           
+          {/* Cart Button */}
+          <div className="relative">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full hover:bg-muted"
+            >
+              <ShoppingCart className="h-5 w-5" />
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs font-medium h-5 w-5 flex items-center justify-center rounded-full">
+                  {cartCount}
+                </span>
+              )}
+              <span className="sr-only">Shopping cart</span>
+            </Button>
+          </div>
+          
           {/* Theme Toggle */}
           <Button
             variant="ghost"
@@ -52,6 +70,23 @@ export default function Header() {
         
         {/* Mobile Navigation Button */}
         <div className="flex items-center space-x-4 md:hidden">
+          {/* Mobile Cart Button */}
+          <div className="relative">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full hover:bg-muted"
+            >
+              <ShoppingCart className="h-5 w-5" />
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs font-medium h-5 w-5 flex items-center justify-center rounded-full">
+                  {cartCount}
+                </span>
+              )}
+              <span className="sr-only">Shopping cart</span>
+            </Button>
+          </div>
+          
           <Button
             variant="ghost"
             size="icon"

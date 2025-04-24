@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 
 export default function HeroSection() {
   return (
-    <section className="relative text-white overflow-hidden bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700">
+    <section className="relative text-white overflow-hidden bg-gradient-to-r from-orange-500 via-orange-600 to-red-600">
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMTI4MCAxNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIwLjAzIj48cGF0aCBkPSJNMTI4MCAxNDBWMFM5OTMuNDYgMTQwIDY0MCAxMzkgMCAwIDAgMHY5NTNsNjQtMS4yMmM0MzAuOTMuMjMgNzgwLjUgMS45NSA1NzYgMS4yNXpNMTI4MCAxNDBoLTEuOTUtMjc3LjI5aC0uMDE3VjE0MHoiLz48L2c+PC9zdmc+')] bg-cover bg-center mix-blend-overlay opacity-30"></div>
       
       {/* Animated gradient blobs */}

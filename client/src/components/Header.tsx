@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { useTheme } from "@/hooks/use-theme";
+import { useCart } from "@/hooks/use-cart";
 import { Button } from "@/components/ui/button";
-import { Moon, Sun, Menu } from "lucide-react";
+import { Moon, Sun, Menu, ShoppingCart } from "lucide-react";
 
 export default function Header() {
   const { theme, setTheme } = useTheme();

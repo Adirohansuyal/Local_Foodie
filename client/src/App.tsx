@@ -7,6 +7,7 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import { ThemeProvider } from "./hooks/use-theme";
 import { SearchProvider } from "./hooks/use-search";
+import { CartProvider } from "./hooks/use-cart";
 
 function Router() {
   return (
@@ -22,10 +23,12 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="light" storageKey="localfoodie-theme">
         <SearchProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Router />
-          </TooltipProvider>
+          <CartProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Router />
+            </TooltipProvider>
+          </CartProvider>
         </SearchProvider>
       </ThemeProvider>
     </QueryClientProvider>

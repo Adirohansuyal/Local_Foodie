@@ -1,18 +1,22 @@
 import { useState, useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { restaurants } from "@/data/restaurants";
-import { Heart } from "lucide-react";
+import { Heart, ShoppingCart, ThumbsUp, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useSearch } from "@/hooks/use-search";
 import { cuisines } from "@/data/cuisines";
+import { useToast } from "@/hooks/use-toast";
 
 type SortOption = "recommended" | "rating" | "delivery" | "price";
 
 export default function RestaurantList() {
   const [sortOption, setSortOption] = useState<SortOption>("recommended");
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
+  const [cart, setCart] = useState<Set<string>>(new Set());
+  const [likedFoods, setLikedFoods] = useState<Set<string>>(new Set());
   const { searchQuery, selectedArea, selectedCuisine, isSearchActive, setIsSearchActive } = useSearch();
+  const { toast } = useToast();
   
   const toggleFavorite = (id: string) => {
     setFavorites(prev => {
@@ -23,6 +27,46 @@ export default function RestaurantList() {
         newFavorites.add(id);
       }
       return newFavorites;
+    });
+  };
+  
+  const toggleCart = (id: string, name: string) => {
+    setCart(prev => {
+      const newCart = new Set(prev);
+      if (newCart.has(id)) {
+        newCart.delete(id);
+        toast({
+          title: "Removed from cart",
+          description: `${name} has been removed from your cart`,
+          variant: "default",
+        });
+      } else {
+        newCart.add(id);
+        toast({
+          title: "Added to cart",
+          description: `${name} has been added to your cart`,
+          variant: "default",
+        });
+      }
+      return newCart;
+    });
+  };
+  
+  const toggleLikeFood = (restaurantId: string, foodName: string) => {
+    const likeId = `${restaurantId}-${foodName}`;
+    setLikedFoods(prev => {
+      const newLikedFoods = new Set(prev);
+      if (newLikedFoods.has(likeId)) {
+        newLikedFoods.delete(likeId);
+      } else {
+        newLikedFoods.add(likeId);
+        toast({
+          title: "Food liked",
+          description: `You liked ${foodName}`,
+          variant: "default",
+        });
+      }
+      return newLikedFoods;
     });
   };
   
@@ -174,11 +218,53 @@ export default function RestaurantList() {
                     <p className="text-sm text-muted-foreground mb-3">
                       {restaurant.description}
                     </p>
+                    
+                    {/* Popular dish section with like button */}
+                    <div className="mb-4 p-3 border border-muted rounded-lg">
+                      <div className="flex justify-between items-center mb-2">
+                        <h4 className="text-sm font-medium">Popular Dish</h4>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-6 w-6"
+                          onClick={() => toggleLikeFood(restaurant.id, `${restaurant.categories[0]} Special`)}
+                        >
+                          <ThumbsUp 
+                            className={likedFoods.has(`${restaurant.id}-${restaurant.categories[0]} Special`) ? "fill-blue-500 text-blue-500" : "text-muted-foreground"} 
+                            size={16} 
+                          />
+                        </Button>
+                      </div>
+                      <p className="text-xs text-foreground font-medium">{restaurant.categories[0]} Special</p>
+                      <p className="text-xs text-muted-foreground">Signature dish with local ingredients</p>
+                    </div>
+                    
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-muted-foreground">{restaurant.distance} miles away</span>
                       <span className="text-xs font-medium bg-primary/10 text-primary px-2 py-1 rounded">
                         {restaurant.offer}
                       </span>
+                    </div>
+                    
+                    {/* Add to cart button */}
+                    <div className="mt-4">
+                      <Button
+                        variant={cart.has(restaurant.id) ? "default" : "outline"}
+                        className="w-full flex items-center justify-center gap-2"
+                        onClick={() => toggleCart(restaurant.id, restaurant.name)}
+                      >
+                        {cart.has(restaurant.id) ? (
+                          <>
+                            <Check size={16} />
+                            <span>Added to Cart</span>
+                          </>
+                        ) : (
+                          <>
+                            <ShoppingCart size={16} />
+                            <span>Add to Cart</span>
+                          </>
+                        )}
+                      </Button>
                     </div>
                   </CardContent>
                 </Card>

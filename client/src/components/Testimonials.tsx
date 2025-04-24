@@ -13,7 +13,7 @@ type Testimonial = {
 const testimonials: Testimonial[] = [
   {
     id: "1",
-    name: "Sarah Johnson",
+    name: "Aditya Suyal",
     role: "Food Enthusiast",
     avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80",
     content: "LocalFoodie has completely changed how I eat! I've discovered so many amazing local restaurants that I never knew existed in my neighborhood.",
@@ -21,17 +21,17 @@ const testimonials: Testimonial[] = [
   },
   {
     id: "2",
-    name: "Michael Chen",
+    name: "Prachi Tiwari",
     role: "Busy Professional",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80",
+    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80",
     content: "The delivery is always on time, and the food arrives hot and fresh. I love supporting local businesses rather than big chains. Great service!",
     rating: 5
   },
   {
     id: "3",
-    name: "Elena Rodriguez",
+    name: "Shourya Mittal",
     role: "Restaurant Owner",
-    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80",
     content: "As a restaurant owner, partnering with LocalFoodie has brought us so many new customers. Their platform is easy to use for both restaurants and customers.",
     rating: 4.5
   }

@@ -1,12 +1,23 @@
 import { createContext, ReactNode, useContext, useState } from "react";
+import { restaurants } from "@/data/restaurants";
+
+export type CartItem = {
+  id: string;
+  name: string;
+  price: string;
+  quantity: number;
+  imageUrl?: string;
+};
 
 type CartContextType = {
-  cart: Set<string>;
+  cartItems: CartItem[];
   addToCart: (id: string, name: string) => void;
   removeFromCart: (id: string) => void;
+  updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
   isInCart: (id: string) => boolean;
   cartCount: number;
+  totalPrice: string;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -16,41 +27,79 @@ type CartProviderProps = {
 };
 
 export function CartProvider({ children }: CartProviderProps) {
-  const [cart, setCart] = useState<Set<string>>(new Set());
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   const addToCart = (id: string, name: string) => {
-    setCart((prev) => {
-      const newCart = new Set(prev);
-      newCart.add(id);
-      return newCart;
+    setCartItems((prev) => {
+      // Check if item already exists in cart
+      if (prev.some(item => item.id === id)) {
+        return prev;
+      }
+      
+      // Find restaurant details
+      const restaurant = restaurants.find(r => r.id === id);
+      
+      if (!restaurant) return prev;
+      
+      // Generate a random price based on the restaurant's price level
+      const priceLevel = restaurant.priceLevel.length;
+      const basePrice = 5 + (priceLevel * 3);
+      const price = `$${basePrice.toFixed(2)}`;
+      
+      // Add new item with quantity 1
+      return [...prev, {
+        id,
+        name,
+        price,
+        quantity: 1,
+        imageUrl: restaurant.imageUrl
+      }];
     });
   };
 
   const removeFromCart = (id: string) => {
-    setCart((prev) => {
-      const newCart = new Set(prev);
-      newCart.delete(id);
-      return newCart;
-    });
+    setCartItems((prev) => prev.filter(item => item.id !== id));
+  };
+  
+  const updateQuantity = (id: string, quantity: number) => {
+    if (quantity < 1) return;
+    
+    setCartItems((prev) => 
+      prev.map(item => 
+        item.id === id ? { ...item, quantity } : item
+      )
+    );
   };
 
   const clearCart = () => {
-    setCart(new Set());
+    setCartItems([]);
   };
 
   const isInCart = (id: string) => {
-    return cart.has(id);
+    return cartItems.some(item => item.id === id);
+  };
+  
+  // Calculate total price of all items in cart
+  const calculateTotalPrice = (): string => {
+    const total = cartItems.reduce((sum, item) => {
+      const price = parseFloat(item.price.replace('$', ''));
+      return sum + (price * item.quantity);
+    }, 0);
+    
+    return `$${total.toFixed(2)}`;
   };
 
   return (
     <CartContext.Provider
       value={{
-        cart,
+        cartItems,
         addToCart,
         removeFromCart,
+        updateQuantity,
         clearCart,
         isInCart,
-        cartCount: cart.size,
+        cartCount: cartItems.length,
+        totalPrice: calculateTotalPrice()
       }}
     >
       {children}
